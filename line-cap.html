@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block;">当前浏览器不支持canvas,请更换浏览器</canvas>
+	<script>
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			//使用context繪製
+			context.lineWidth = 50;
+			context.strokeStyle = '#058';
+
+			context.beginPath();
+			context.moveTo(100, 200);
+			context.lineTo(700, 200);
+			context.lineCap = 'butt';
+
+			context.stroke();
+
+			context.beginPath();
+			context.moveTo(100, 400);
+			context.lineTo(700, 400);
+			context.lineCap = 'round';//只在線段的開始和結尾處有效，銜接觸沒有效果
+
+			context.stroke();
+
+			context.beginPath();
+			context.moveTo(100, 600);
+			context.lineTo(700, 600);
+			context.lineCap = 'square';
+
+			context.stroke();
+
+			//baseline
+			context.lineWidth = 1;
+			context.strokeSyle = '#27a';
+			context.moveTo(100, 100);
+			context.lineTo(100, 700);
+			context.moveTo(700, 100);
+			context.lineTo(700, 700);
+			context.stroke();
+		};
+	</script>
+
+</body>
+</html>

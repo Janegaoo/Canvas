@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block;">当前浏览器不支持canvas,请更换浏览器</canvas>
+	<script>
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+
+			context.lineWidth = 10;
+			context.lineJoin = "miter";//線和線之間的銜接樣式 bevel round 默認miter
+			context.miterLimit = 20; //miterLimit 默認數值為10，一旦超過這個數值，就會以bevel方式顯示
+			drawStar(context, 30, 300, 400, 400, 30)
+
+		};
+		/**
+		 * [五角星繪製]
+		 * @param  {[type]} cxt [context上下文環境]
+		 * @param  {[type]} r   [五角星小圓的半徑]
+		 * @param  {[type]} R   [五角星大圓的半徑]
+		 * @param  {[type]} x   [x軸]
+		 * @param  {[type]} y   [y軸]
+		 * @return {[type]}     [description]
+		 */
+		function drawStar(cxt, r, R, x, y, rot){
+			//使用context繪製
+			
+			cxt.beginPath();
+			/**
+			 * Math.cos((18 + i * 72)/180 * Math.PI) * 300基於(0, 0)點的
+			 * 180 * Math.PI角度轉弧度				 
+			 */
+			for (var i = 0; i < 5; i++){
+				cxt.lineTo(Math.cos((18 + i * 72 - rot)/180 * Math.PI) * R + x,
+							   -Math.sin((18 + i * 72 - rot)/180 * Math.PI) * R + y);
+				cxt.lineTo(Math.cos((54 + i * 72 - rot)/180 * Math.PI) * r + x,
+							   -Math.sin((54 + i * 72 - rot)/180 * Math.PI) * r + y);
+			}
+
+			cxt.closePath();			
+			cxt.stroke();
+		}
+	</script>
+
+</body>
+</html>

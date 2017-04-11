@@ -1,5 +1,5 @@
 /**
- * [时钟效果]
+ * [倒计时效果]
  * @type {Number}
  */
 var WINDOW_WIDTH = 1024;
@@ -7,6 +7,8 @@ var WINDOW_HEIGHT = 768;
 var RADIUS = 8;
 var MARGIN_TOP = 60;
 var MARGIN_LEFT = 30;
+var endTime = new Date();
+endTime.setTime(endTime.getTime() + 3600 * 1000); //当前时间的1小时之后
 var curShowTimeSeconds = 0;
 
 var hours = 0;
@@ -41,9 +43,10 @@ window.onload = function(){
 
 function getCurrentShowTimeSeconds(){
 	var curTime = new Date();
-	var ret = curTime.getHours() * 3600 + curTime.getMinutes() * 60 + curTime.getSeconds();
+	var ret = endTime.getTime() - curTime.getTime();
+	ret = Math.round(ret/1000);
 
-	return ret;
+	return ret>0?ret : 0;
 }
 /**
  * [时间更新]

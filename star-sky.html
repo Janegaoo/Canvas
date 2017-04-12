@@ -25,57 +25,60 @@
 				/*var x = Math.random() * canvas.width;
 				var y = Math.random() * canvas.height;*/
 				var a = Math.random() * 360;
-				drawStar(context, x, y, r, r/2.0, a)
+
+				drawStar(context, x, y, r, a);
+
 			}
 			
 
 		};
 		/**
 		 * [五角星繪製]
-		 * @param  {[type]} ctx [context上下文環境]
-		 * @param  {[type]} r   [五角星小圓的半徑]
+		 * @param  {[type]} cxt [context上下文環境]
 		 * @param  {[type]} R   [五角星大圓的半徑]
 		 * @param  {[type]} x   [x軸]
 		 * @param  {[type]} y   [y軸]
-		 * @return {[type]}     [description]
+		 * @return {[type]} rot    [旋转角度]
 		 */
-		function drawStar(ctx, x, y, outerR, innerR, rot){
+		function drawStar(cxt, x, y, R, rot){
 			//使用context繪製
-			
-			ctx.beginPath();
+			//cxt.save()状态保存
+			//cxt.restore()状态重置，和状态保存配对出现
+			cxt.save();
+			//绘制出在(x, y),大小为R，旋转rot度的五角星
+			//应用到图形变换的知识
+			//位移 translate(x, y)
+			//旋转 rotate(deg)
+			//缩放 scale(sx, sy)
+
+			cxt.translate(x, y);
+			cxt.rotate(rot/180 * Math.PI);
+			cxt.scale(R, R);
+
+			startPath(cxt);
+
+			cxt.fillStyle = '#fb3';
+			//cxt.strokeStyle = '#fd5';
+			//cxt.lineWidth = 3;
+			cxt.fill();
+			//cxt.stroke();
+			cxt.restore();
+		}
+
+		function startPath(cxt){
+			cxt.beginPath();
 			/**
 			 * Math.cos((18 + i * 72)/180 * Math.PI) * 300基於(0, 0)點的
 			 * 180 * Math.PI角度轉弧度				 
 			 */
+			cxt.beginPath();
 			for (var i = 0; i < 5; i++){
-				ctx.lineTo(Math.cos((18 + i * 72 - rot)/180 * Math.PI) * outerR + x,
-							   -Math.sin((18 + i * 72 - rot)/180 * Math.PI) * outerR + y);
-				ctx.lineTo(Math.cos((54 + i * 72 - rot)/180 * Math.PI) * innerR + x,
-							   -Math.sin((54 + i * 72 - rot)/180 * Math.PI) * innerR + y);
+				cxt.lineTo(Math.cos((18 + i * 72)/180 * Math.PI),
+							   -Math.sin((18 + i * 72)/180 * Math.PI));
+				cxt.lineTo(Math.cos((54 + i * 72)/180 * Math.PI) * 0.5,
+							   -Math.sin((54 + i * 72)/180 * Math.PI) * 0.5);
 			}
-
-			ctx.closePath();
-
-			//五颜六色的星星
-			/*var fColor="rgba("+
-
-                    Math.floor(Math.random()*255)+","+
-
-                    Math.floor(Math.random()*255)+","+
-
-                    Math.floor(Math.random()*255)+","+
-
-                    (Math.random()*0.3+0.5)+ ")";
-
-          	ctx.fillStyle=fColor;*/
-
-			ctx.fillStyle = "#fb3";
-			ctx.strokeStyle = "#fd5";
-			ctx.lineWidth = 3;
-			ctx.lineJoin = "round";
-
-			ctx.fill();
-			ctx.stroke();
+			cxt.closePath();
 		}
 	</script>
 

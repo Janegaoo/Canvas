@@ -9,19 +9,24 @@
 	<script>
 		window.onload = function(){
 			var canvas = document.getElementById('canvas');
-			canvas.width = 800;
+			canvas.width = 1200;
 			canvas.height = 800;
 
 			var context = canvas.getContext('2d');
 
-			context.fillStyle = 'black';
+			var skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
+			skyStyle.addColorStop(0.0, 'black');
+			skyStyle.addColorStop(1.0, '#035');
+
+			context.fillStyle = skyStyle;
+
 			context.fillRect(0, 0, canvas.width, canvas.height)
 
 			for (var i = 0; i < 200; i++){
-				var r = Math.random() * 10 + 10;
+				var r = Math.random() * 5 + 5;
 				//让星星均在画布之内
 				var x = Math.random()*(canvas.width-2*r)+r;
-				var y = Math.random()*(canvas.height-2*r)+r;
+				var y = Math.random()*(canvas.height*0.65-2*r)+r;
 				/*var x = Math.random() * canvas.width;
 				var y = Math.random() * canvas.height;*/
 				var a = Math.random() * 360;
@@ -58,6 +63,8 @@
 			startPath(cxt);
 
 			cxt.fillStyle = '#fb3';
+
+
 			//cxt.strokeStyle = '#fd5';
 			//cxt.lineWidth = 3;
 			cxt.fill();

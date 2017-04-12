@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block; margin:0 auto;">当前浏览器不支持canvas,请更换浏览器</canvas>
+	<script>
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			context.fillStyle = 'black';
+			context.fillRect(0, 0, canvas.width, canvas.height)
+
+			for (var i = 0; i < 200; i++){
+				var r = Math.random() * 10 + 10;
+				//让星星均在画布之内
+				var x = Math.random()*(canvas.width-2*r)+r;
+				var y = Math.random()*(canvas.height-2*r)+r;
+				/*var x = Math.random() * canvas.width;
+				var y = Math.random() * canvas.height;*/
+				var a = Math.random() * 360;
+				drawStar(context, x, y, r, r/2.0, a)
+			}
+			
+
+		};
+		/**
+		 * [五角星繪製]
+		 * @param  {[type]} ctx [context上下文環境]
+		 * @param  {[type]} r   [五角星小圓的半徑]
+		 * @param  {[type]} R   [五角星大圓的半徑]
+		 * @param  {[type]} x   [x軸]
+		 * @param  {[type]} y   [y軸]
+		 * @return {[type]}     [description]
+		 */
+		function drawStar(ctx, x, y, outerR, innerR, rot){
+			//使用context繪製
+			
+			ctx.beginPath();
+			/**
+			 * Math.cos((18 + i * 72)/180 * Math.PI) * 300基於(0, 0)點的
+			 * 180 * Math.PI角度轉弧度				 
+			 */
+			for (var i = 0; i < 5; i++){
+				ctx.lineTo(Math.cos((18 + i * 72 - rot)/180 * Math.PI) * outerR + x,
+							   -Math.sin((18 + i * 72 - rot)/180 * Math.PI) * outerR + y);
+				ctx.lineTo(Math.cos((54 + i * 72 - rot)/180 * Math.PI) * innerR + x,
+							   -Math.sin((54 + i * 72 - rot)/180 * Math.PI) * innerR + y);
+			}
+
+			ctx.closePath();
+
+			//五颜六色的星星
+			/*var fColor="rgba("+
+
+                    Math.floor(Math.random()*255)+","+
+
+                    Math.floor(Math.random()*255)+","+
+
+                    Math.floor(Math.random()*255)+","+
+
+                    (Math.random()*0.3+0.5)+ ")";
+
+          	ctx.fillStyle=fColor;*/
+
+			ctx.fillStyle = "#fb3";
+			ctx.strokeStyle = "#fd5";
+			ctx.lineWidth = 3;
+			ctx.lineJoin = "round";
+
+			ctx.fill();
+			ctx.stroke();
+		}
+	</script>
+
+</body>
+</html>

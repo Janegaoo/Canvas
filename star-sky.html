@@ -14,9 +14,19 @@
 
 			var context = canvas.getContext('2d');
 
-			var skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
+			//线性渐变
+			/*var skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
 			skyStyle.addColorStop(0.0, 'black');
 			skyStyle.addColorStop(1.0, '#035');
+			*/
+			//径向渐变(x, y, r, x, y, R)
+			var skyStyle = context.createRadialGradient(
+					canvas.width/2, canvas.height, 0,
+					canvas.width/2, canvas.height, canvas.height
+				);
+
+			skyStyle.addColorStop(0.0, '#035');
+			skyStyle.addColorStop(1.0, 'black');
 
 			context.fillStyle = skyStyle;
 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block; margin:50 auto;"></canvas>
+	<script>
+
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			fillRoundRect(context, 150, 150, 500, 500, 10, '#bbada0');
+
+			for (var i = 0; i < 4; i++)
+				for (var j = 0; j < 4; j++){
+					fillRoundRect(context, 170 + i * 120, 170 + j *120, 100, 100, 6, '#ccc0b3');
+				}
+			//strokeRoundRect(context, 0, 0, 100, 100, 6, 3, 'red');
+
+		};
+
+		/**
+		 * [fillRoundRect]
+		 * @param  {[type]} cxt       [绘图上下文]
+		 * @param  {[type]} x         [x轴坐标]
+		 * @param  {[type]} y         [y轴坐标]
+		 * @param  {[type]} width     [矩形的宽]
+		 * @param  {[type]} height    [矩形的高]
+		 * @param  {[type]} radius    [圆角半径]
+		 * @param  {[type]} fillColor [填充颜色，可选项]
+		 */
+		function fillRoundRect(cxt, x, y, width, height, radius, fillColor){
+			if (2*radius > width || 2*radius > height){
+				return;
+			}
+
+			cxt.save();
+
+			cxt.translate(x, y);
+			pathRoundRect(cxt, width, height, radius);
+			cxt.fillStyle = fillColor || 'black';
+			cxt.fill();
+			cxt.restore();
+		}
+
+		/**
+		 * [strokeRoundRect]
+		 * @param  {[type]} cxt         [绘图上下文]
+		 * @param  {[type]} x           [x轴坐标]
+		 * @param  {[type]} y           [y轴坐标]
+		 * @param  {[type]} width       [矩形宽度]
+		 * @param  {[type]} height      [矩形高度]
+		 * @param  {[type]} radius      [圆角半径]
+		 * @param  {[type]} lineWidth   [可选项，线条宽度]
+		 * @param  {[type]} strokeColor [可选项，线条颜色]
+		 * @return {[type]}             []
+		 */
+		function strokeRoundRect(cxt, x, y, width, height, radius, lineWidth, strokeColor){
+			if (2*radius > width || 2*radius > height){
+				return ;
+			}
+
+			cxt.save();
+
+			cxt.translate(x, y);
+			pathRoundRect(cxt, width, height, radius);
+			cxt.lineWidth = lineWidth || 1;
+			cxt.strokeStyle = strokeColor || 'black';
+			cxt.stroke();
+
+			cxt.restore();
+
+
+		}
+
+		function pathRoundRect(cxt, width, height, radius){
+			cxt.beginPath();
+			//从右下角开始绘制
+			cxt.arc(width - radius, height - radius, radius, 0, Math.PI * 0.5);
+			cxt.lineTo(radius, height);
+			cxt.arc(radius, height - radius, radius, Math.PI * 0.5, Math.PI);
+			cxt.lineTo(0, radius);
+			cxt.arc(radius, radius, radius, Math.PI, Math.PI * 1.5);
+			cxt.lineTo(width - radius, 0);
+			cxt.arc(width - radius, radius, radius, Math.PI * 1.5, Math.PI * 2)
+
+			cxt.closePath();
+		}
+
+	</script>
+</body>
+</html>

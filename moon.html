@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block; margin:50 auto;"></canvas>
+	<script>
+
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			//星空
+			var skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
+			skyStyle.addColorStop(0.0, 'black');
+			skyStyle.addColorStop(1.0, '#035');
+			context.fillStyle = skyStyle;
+			context.fillRect(0, 0, canvas.width, canvas.height);
+
+			//星星
+			for (var i = 0; i < 200; i++){
+				var r = Math.random() * 5 + 5;
+				var x = Math.random() * canvas.width;
+				var y = Math.random() * canvas.height * 0.65;
+				var rot = Math.random() * 360;
+
+				drawStar(context, x, y, r, rot);
+			}
+
+			fillMoon(context, 2, 600, 150, 80, 30);
+
+		};
+
+		/**
+		 * [drawStar description]
+		 * @param  {[type]} cxt [上下文]
+		 * @param  {[type]} x   [星星中心点X坐标]
+		 * @param  {[type]} y   [星星中心点Y坐标]
+		 * @param  {[type]} r   [星星外边缘半径]
+		 * @param  {[type]} rot [星星旋转角度]
+		 * @return {[type]}     [description]
+		 */
+		function drawStar(cxt, x, y, r, rot){
+			cxt.save();
+
+			cxt.translate(x, y);
+			cxt.scale(r, r);
+			cxt.rotate(rot/180*Math.PI);
+			drawStarPath(cxt);
+			cxt.fillStyle = '#fb3';
+			cxt.fill();
+
+			cxt.restore()
+		}
+
+		/**
+		 * [drawStarPath description]
+		 * @param  {[type]} cxt [绘图上下文]
+		 * @return {[type]}     [description]
+		 */
+		function drawStarPath(cxt){
+			cxt.beginPath();
+
+			for (var i = 0; i < 5; i++){
+				cxt.lineTo( Math.cos((18 + i*72)/180 * Math.PI), 
+				-Math.sin((18 + i * 72)/180 * Math.PI) );
+				cxt.lineTo( Math.cos((54 + i*72)/180 * Math.PI) * 0.5,
+				-Math.sin((54 + i * 72)/180 * Math.PI) * 0.5 );
+			}
+
+			cxt.closePath();
+		}
+
+		/**
+		 * [月亮填充]
+		 * @param  {[type]} cxt       [context上下文环境]
+		 * @param  {[type]} d         [月亮控制点横坐标的值]
+		 * @param  {[type]} x         [月亮外面弧的圆心横坐标]
+		 * @param  {[type]} y         [月亮外面弧的圆心纵坐标]
+		 * @param  {[type]} R         [月亮外面弧的半径]
+		 * @param  {[type]} rot       [旋转角度]
+		 * @param  {[type]} fillColor [可选项，填充颜色]
+		 * @return {[type]}           [description]
+		 */
+		function fillMoon(cxt, d, x, y, R, rot, fillColor){
+			cxt.save();
+
+			cxt.translate(x, y);
+			cxt.rotate(rot * Math.PI/180);
+			cxt.scale(R, R);
+			pathMoon(cxt, d);
+			cxt.fillStyle = fillColor || '#fb5';
+			cxt.fill();
+			//cxt.stroke();
+
+			cxt.restore();
+		}
+
+		/**
+		 * [绘制月亮路径]
+		 * @param  {[type]} cxt [绘图上下文]
+		 * @param  {[type]} d   [月亮内弧控制点横坐标]
+		 * @return {[type]}     [description]
+		 */
+		function pathMoon(cxt, d){
+			cxt.beginPath();
+			cxt.arc(0, 0, 1, 0.5* Math.PI, 1.5 * Math.PI, true);
+			cxt.moveTo(0, -1);
+			cxt.arcTo(d, 0, 0, 1, dis(0, -1, d, 0)/d);
+
+			cxt.closePath();
+		}
+
+		function dis(x1, y1, x2, y2){
+			return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+		}
+
+
+	</script>
+</body>
+</html>

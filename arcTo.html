@@ -19,7 +19,7 @@
 			 * arcTo
 			 * context.arcTo(x1, y1, x2, y2, radius);
 			 */
-			context.beginPath();
+			/*context.beginPath();
 			context.moveTo(150, 150);
 			context.arcTo(650, 150, 650, 650, 300);
 
@@ -35,9 +35,33 @@
 
 			context.lineWidth = 2;
 			context.strokeStyle = 'gray';
-			context.stroke();
+			context.stroke();*/
+
+			arcToTest(context, 150, 100, 650, 100, 650, 600, 300);
 
 		};
+
+		function arcToTest(cxt, x0, y0, x1, y1, x2, y2, R){
+			cxt.beginPath();
+			cxt.moveTo(x0, y0);
+			cxt.arcTo(x1, y1, x2, y2, R);
+
+			cxt.strokeStyle = 'red';
+			cxt.lineWidth = 3;
+			cxt.stroke();
+			cxt.closePath();
+
+			cxt.beginPath();
+			cxt.moveTo(x0, y0);
+			cxt.lineTo(x1, y1);
+			cxt.lineTo(x2, y2);
+			cxt.strokeStyle = 'gray';
+			cxt.lineWidth = 2;
+			cxt.stroke();
+			cxt.closePath();
+
+
+		}
 
 	</script>
 </body>

@@ -15,7 +15,7 @@
 			vy : Math.random() *5 + 10
 		};
 		var rot = 0; //旋转的角度
-		
+		var isIncreate = true;
 		window.onload = function(){
 			var canvas = document.getElementById('canvas');
 			canvas.width = 800;
@@ -89,7 +89,7 @@
 
 		function update(canvasWidth, canvasHeight){
 
-			rot += 1;
+			/*rot += 1;
 
 			searchLight.x += searchLight.vx;
 			searchLight.y += searchLight.vy;
@@ -112,6 +112,18 @@
 			if (searchLight.y + searchLight.radius >= canvasHeight){
 				searchLight.vy = -searchLight.vy;
 				searchLight.y = canvasHeight - searchLight.radius;
+			}*/
+
+			if (searchLight.radius > 700){
+				isIncreate = false;
+			}else if(searchLight.radius < 150){
+				isIncreate = true;
+			}
+
+			if (isIncreate){
+				searchLight.radius += 5;
+			}else{
+				searchLight.radius -= 5;
 			}
 
 		}

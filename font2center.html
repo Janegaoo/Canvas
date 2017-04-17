@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc; display:block; margin:50 auto;"></canvas>
+	<script>
+
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 800;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			context.fillStyle = '#058';
+			context.font = 'bold 120px Arial';
+
+			context.textAlign = 'center';
+			context.textBaseline = 'middle';
+			context.fillText('Canvas', canvas.width/2, canvas.height/2);
+
+			context.strokeStyle = '#888';
+			context.moveTo(0, canvas.width/2);
+			context.lineTo(canvas.width, canvas.height/2);
+			context.moveTo(canvas.width/2, 0);
+			context.lineTo(canvas.width/2, canvas.height);
+			context.stroke();
+
+
+
+
+
+		}
+
+	</script>
+</body>
+</html>

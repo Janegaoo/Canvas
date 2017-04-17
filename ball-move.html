@@ -3,8 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<script type="text/javascript" src="digit.js"></script>
-	<script type="text/javascript" src="countdown.js"></script>
 </head>
 <body>
 	<canvas id="canvas" style="border:1px solid #ccc;display:block;margin:0 auto;">
@@ -28,9 +26,10 @@
 		};
 
 		function update(){
-			ball.x+=ball.vx;  //水平方向的位移
-			ball.y+=ball.vy;  //竖直方向的位移
-			ball.vy+=ball.g;  //竖直方向的速度
+			ball.x += ball.vx;  //水平方向的位移
+			ball.y += ball.vy;  //竖直方向的位移
+			ball.vy += ball.g;  //竖直方向的速度
+
 			//碰撞检测
 			if(ball.y>=768-ball.r){
 				ball.y=768-ball.r;

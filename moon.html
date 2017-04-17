@@ -32,9 +32,38 @@
 				drawStar(context, x, y, r, rot);
 			}
 
+			//绘画月亮
 			fillMoon(context, 2, 600, 150, 80, 30);
 
+			//绘画绿地 
+			drawLand(context);
+
 		};
+
+		/**
+		 * [drawLand description]
+		 * @param  {[type]} cxt [上下文]
+		 * @return {[type]}     [绘制绿地]
+		 */
+		function drawLand(cxt){
+			cxt.save();
+
+			cxt.beginPath();
+			cxt.moveTo(0, 600);
+			cxt.bezierCurveTo(540, 400, 660, 800, 1200, 600);
+			cxt.lineTo(1200, 800);	
+			cxt.lineTo(0, 800);		
+			cxt.closePath();
+
+			//着色
+			var landStyle = cxt.createLinearGradient(0, 800, 0, 0);
+			landStyle.addColorStop(0.0, '#030');
+			landStyle.addColorStop(1.0, '#580');
+			cxt.fillStyle = landStyle;
+			cxt.fill();
+
+			cxt.restore();
+		}
 
 		/**
 		 * [drawStar description]

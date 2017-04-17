@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" style="border:1px solid #ccc;display:block;margin:0 auto;">
+		当前浏览器不支持canvas,请更换浏览器
+	</canvas>
+		
+	<script>
+		var aBall = {};
+		var balls = [];
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 1200;
+			canvas.height = 800;
+
+			var context = canvas.getContext('2d');
+
+			for (var i = 0; i < 100; i++){
+				var R = Math.floor(Math.random() * 255);
+				var G = Math.floor(Math.random() * 255);
+				var A = Math.floor(Math.random() * 255);
+				var radius = Math.floor(Math.random() * 50 + 10);
+
+				aBall = {
+					color : 'rgb('+ R +', '+ G +', '+ A +')',
+					radius : radius,
+					x : Math.random() * (canvas.width - 2 * radius) + radius,
+					y : Math.random() * (canvas.width  - 2 * radius) + radius,
+					vx : (Math.random() * 5 + 5) * Math.pow(-1, Math.floor(Math.random() * 100)),
+					vy : (Math.random() * 5 + 5) * Math.pow(-1, Math.floor(Math.random() * 100))
+				};
+
+				balls[i] = aBall;
+			}
+
+			setInterval(function(){
+				draw(context);
+				update(canvas.width, canvas.height);
+			}, 50);
+		};
+
+		/**
+		 * [draw description]
+		 * @param  {[type]} cxt [description]
+		 * @return {[type]}     [绘制小球]
+		 */
+		function draw(cxt){
+			var canvas = cxt.canvas;
+			cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+			for (var i = 0; i < balls.length; i++){
+				//设置遮挡效果
+				cxt.globalCompositeOperation = 'lighter';
+				cxt.fillStyle = balls[i].color;
+				cxt.beginPath();
+				cxt.arc(balls[i].x, balls[i].y, balls[i].radius, 0, Math.PI * 2);
+				cxt.closePath();
+				cxt.fill();
+			}
+		}
+
+		/**
+		 * [upadate description]
+		 * @param  {[type]} canvasWidth  [description]
+		 * @param  {[type]} canvasHeight [description]
+		 * @return {[type]}              [设计到碰撞检测]
+		 */
+		function update(canvasWidth, canvasHeight){
+			for (var i = 0; i < balls.length; i++){
+
+
+				balls[i].x += balls[i].vx;
+				balls[i].y += balls[i].vy;
+
+				if (balls[i].x - balls[i].radius <= 0){
+					balls[i].vx = -balls[i].vx;
+					balls[i].x = balls[i].radius;
+				}
+
+				if (balls[i].x + balls[i].radius >= canvas.width){
+					balls[i].vx = -balls[i].vx;
+					balls[i].x = canvasWidth - balls[i].radius;
+				}
+
+				if (balls[i].y - balls[i].radius <= 0){
+					balls[i].vy = -balls[i].vy;
+					balls[i].y = balls[i].radius;
+				}
+
+				if (balls[i].y + balls[i].radius >= canvas.height){
+					balls[i].vy = -balls[i].vy;
+					balls[i].y = canvas.height - balls[i].radius;
+				}
+
+			}
+		}
+
+
+	</script>
+
+</body>
+</html>

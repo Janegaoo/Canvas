@@ -3,15 +3,83 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style>
+		#canvas-wrapper{
+			width:1200px;
+			height:800px;
+			position:relative;
+			margin:50px auto;
+		}
+		#canvas{
+			border:1px solid #aaa;
+		}
+		#controller{
+			position:absolute;
+			top:30px;
+			left:30px;
+			background-color:rgba(0,85,116,0.7);
+			padding:5px 20px 25px 20px;
+			border-radius:10px 10px;
+		}
+		#controller h1{
+			color:#FFF;
+			font-weight:bold;
+			font-family:Microsoft YaHei;
+		}
+		#controller #canvas-btn{
+			display:inline-block;
+			background-color:#8b0;
+			color:#FFF;
+			font-size:14px;
+			padding:5px 15px;
+			border-radius:6px 6px;
+			text-decoration:none;
+			margin-top:10px;
+			margin-right:20px;
+		}
+		#controller #canvas-btn:hover{
+			text-decoration:none;
+			background-color:#7a0;
+		}
+		#controller .color-btn{
+			display:inline-block;
+			padding:5px 15px;
+			border-radius:6px 6px;
+			font-size:14px;
+			margin-top:10px;
+			margin-right:5px;
+			text-decoration:none;
+		}
+		#controller .color-btn:hover{
+			text-decoration:none;
+		}
+		#controller #white-color-btn{
+			background-color:#FFF;
+		}
+		#controller #black-color-btn{
+			background-color:#000;
+		}
+	</style>
 </head>
 <body>
-	<canvas id="canvas" style="border:1px solid #ccc;display:block;margin:0 auto;">
-		当前浏览器不支持canvas,请更换浏览器
-	</canvas>
+	<div id="canvas-wrapper">
+		<canvas id="canvas" style="border:1px solid #ccc;display:block;margin:0 auto;">
+			当前浏览器不支持canvas,请更换浏览器
+		</canvas>
+		<div id="controller">
+			<h1>Canvas 绘图之旅</h1>
+			<a href="#" id="canvas-btn">停止运动</a>
+			<a href="#" class="color-btn" id="white-color-btn">&nbsp;</a>
+			<a href="#" class="color-btn" id="black-color-btn">&nbsp;</a>
+		</div>
+	</div>
+	
 		
 	<script>
-		var aBall = {};
 		var balls = [];
+		var isMoving = true;
+		var themeColor = 'white';
+
 		window.onload = function(){
 			var canvas = document.getElementById('canvas');
 			canvas.width = 1200;
@@ -25,7 +93,7 @@
 				var A = Math.floor(Math.random() * 255);
 				var radius = Math.floor(Math.random() * 50 + 10);
 
-				aBall = {
+				var aBall = {
 					color : 'rgb('+ R +', '+ G +', '+ A +')',
 					radius : radius,
 					x : Math.random() * (canvas.width - 2 * radius) + radius,
@@ -39,9 +107,35 @@
 
 			setInterval(function(){
 				draw(context);
-				update(canvas.width, canvas.height);
+				if (isMoving){
+					update(canvas.width, canvas.height);
+				}
+				
 			}, 50);
+
+			//事件绑定
+			document.getElementById('canvas-btn').onclick = function(e){
+				if (isMoving){
+					isMoving = false;
+					this.text = '开始运动';
+				}else{
+					isMoving = true;
+					this.text = '停止运动';
+				}
+				return false;
+			};
+
+			document.getElementById('white-color-btn').onclick = function(){
+				themeColor = 'white';
+				return false;
+			};
+
+			document.getElementById('black-color-btn').onclick = function(){
+				themeColor = 'black';
+				return false;
+			};
 		};
+
 
 		/**
 		 * [draw description]
@@ -51,6 +145,11 @@
 		function draw(cxt){
 			var canvas = cxt.canvas;
 			cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+			if (themeColor == 'black'){
+				cxt.fillStyle = 'black';
+				cxt.fillRect(0, 0, canvas.width, canvas.height);
+			}
 
 			for (var i = 0; i < balls.length; i++){
 				//设置遮挡效果
